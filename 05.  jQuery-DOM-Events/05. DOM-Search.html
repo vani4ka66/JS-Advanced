@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DOM Search</title>
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"
+            integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="
+            crossorigin="anonymous"></script>
+    <style>
+        .add-controls, .search-controls {
+            width: 20em;
+            height: 2em;
+        }
+        input {
+            position: absolute;
+            left:6em;
+        }
+        .button {
+            background-color: darkgrey;
+            color: white;
+            font-weight: bold;
+            position: absolute;
+            left: 15em;
+            border: 1px solid black;
+            padding: 0 5px 0 5px;
+        }
+        .result-controls .button {
+            position: relative;
+            left: 0;
+            font-size: 50%;
+            margin-right:1em;
+            padding: 0;
+            bottom: 3px;
+        }
+        li {
+            list-style-type: none;
+        }
+    </style>
+</head>
+<body>
+<div id="content"></div>
+
+
+<script>
+    window.onload = function () {
+        domSearch("#content");
+    }
+</script>
+<script>
+
+    function domSearch() {
+        let li = '';
+        let arg1 = arguments[1];
+        console.log(arg1);
+        let content = $(arguments[0]);
+        content.addClass('items-control');
+
+        let div = $('<div>');
+        div.addClass('add-controls');
+        let lable = $("<lable>");
+        lable.text('Enter text: ');
+        let inputField = $('<input>');
+        lable.append(inputField);
+        let a = $("<a class='button' style='display: inline-block;'>Add</a>");
+        $(a).on('click', addElement);
+        div.append(lable).append(a);
+
+        let div2 = $('<div>');
+        div2.addClass('search-controls');
+        let lable2 = $('<lable>');
+        lable2.text('Search: ');
+        let input2 = $('<input>');
+        lable2.append(input2);
+        div2.append(lable2);
+
+        let div3 = $('<div>');
+        div3.addClass('result-controls');
+        let ul = $('<ul>');
+        ul.addClass('items-list');
+        div3.append(ul);
+
+        $(input2).on('change', function () {
+            let searchedWord = input2.val();
+
+            let ulList = $('.items-list li strong');
+
+            for (let row of ulList) {
+
+                let lis = row.textContent;
+
+                if(arg1 == false || arg1 == undefined){
+
+                    lis = lis.toUpperCase();
+                    searchedWord = searchedWord.toUpperCase();
+                }
+
+               if(!lis.includes(searchedWord)){
+                   ($(row).parent()).css('display', 'none');
+               }
+            }
+        })
+        content.append(div).append(div2).append(div3);
+
+        function addElement() {
+            let li = $('<li>');
+            li.addClass('list-item');
+            let a = $('<a>');
+            a.addClass('button');
+            a.text('X');
+            $(a).on('click', function () {
+                $(a).parent().remove();
+                $(strong).parent().remove();
+            });
+            let strong = $('<strong>');
+            strong.text(inputField.val());
+            li.append(a).append(strong);
+            ul.append(li);
+            inputField.val('');
+        }
+    }
+
+</script>
+</body>
+</html>
