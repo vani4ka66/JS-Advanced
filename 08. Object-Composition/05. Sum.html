@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"
+        integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="
+        crossorigin="anonymous"></script>
+
+<script src="monkey.js"></script>
+
+</head>
+<body>
+<input type="text" id="num1" />
+<input type="text" id="num2" />
+<input type="text" id="result" readonly />
+<br>
+<button id="sumButton">Sum</button>
+<button id="subtractButton">Subtract</button>
+<script>
+
+    $(function () {
+        let model = getModel();
+        model.init('#num1', '#num2', '#result');
+        $('#submitButton').click(model.add);
+        $('#substractButton').click(model.subtract);
+    });
+
+function getModel() {
+
+    let input1, input2, result;
+
+    function init(num1Sel, num2Sel, resultSel) {
+
+        input1 = $(num1Sel);
+        input2 = $(num2Sel);
+        result = $(resultSel);
+    }
+
+    function add() {
+        alert('yyyy')
+        result.val(Number(input1.val()) + Number(input2.val()));
+    }
+
+    function subtract() {
+        alert('uuuuu')
+        result.val(Number(input1.val()) - Number(input2.val()));
+
+    }
+
+    return {init, add, subtract}
+}
+
+</script>
+
+</body>
+</html>
