@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Time Converter</title>
+    <script src="timeConverter.js"></script>
+    <style>
+        label, input {
+            display: inline-block;
+            width: 5em;
+        }
+        label {
+            text-align: right;
+        }
+    </style>
+</head>
+<body onload="attachEventsListeners()">
+<h1>Time Converter</h1>
+<div>
+    <label for="days">Days: </label>
+
+    <input type="text" id="days">
+
+    <input id="daysBtn" type="button" value="Convert">
+</div>
+<div>
+    <label for="hours">Hours: </label>
+
+    <input type="text" id="hours">
+
+    <input id="hoursBtn" type="button" value="Convert">
+</div>
+<div>
+    <label for="minutes">Minutes: </label>
+    <input type="text" id="minutes">
+    <input id="minutesBtn" type="button" value="Convert">
+</div>
+<div>
+    <label for="seconds">Seconds: </label>
+    <input type="text" id="seconds">
+    <input id="secondsBtn" type="button" value="Convert">
+</div>
+<script>
+    function attachEventsListeners() {
+        document.getElementById('daysBtn').addEventListener('click', convertDays );
+        document.getElementById('hoursBtn').addEventListener('click', convertHours );
+        document.getElementById('minutesBtn').addEventListener('click', convertMin );
+        document.getElementById('secondsBtn').addEventListener('click', convertSec );
+
+
+        let rates = {
+            'days': 24,
+            'hours': 1,
+            'minutes': 1440,
+            'seconds': 86400
+        };
+
+        function convertSec() {
+            let inputSeconds = Number(document.getElementById('seconds').value);
+
+            let resultDays = (inputSeconds /86400).toFixed(1);
+            let resultHours = Math.floor(inputSeconds *24/86400);
+            let resultMinutes = Math.floor(inputSeconds * 1440/86400);
+            document.getElementById('days').value = resultDays;
+            document.getElementById('hours').value = resultHours;
+            document.getElementById('minutes').value = resultMinutes;
+        }
+
+        function convertMin() {
+            let inputMins = Number(document.getElementById('minutes').value);
+
+            let resultDays = (inputMins /1440).toFixed(1);
+            let resultHours = Math.floor(inputMins *24/1440);
+            let resultSeconds = (inputMins * 86400/1440);
+            document.getElementById('days').value = resultDays;
+            document.getElementById('hours').value = resultHours;
+            document.getElementById('seconds').value = resultSeconds;
+        }
+
+        function convertHours() {
+            let inputHours = Number(document.getElementById('hours').value);
+
+            let resultDays = (inputHours / 24).toFixed(1);
+            let resultMinutes = (inputHours * 1440)/24;
+            let resultSeconds = (inputHours * 86400)/24;
+            document.getElementById('days').value = resultDays;
+            document.getElementById('minutes').value = resultMinutes;
+            document.getElementById('seconds').value = resultSeconds;
+        }
+
+        function convertDays() {
+            let inputDays = Number(document.getElementById('days').value);
+
+            let resultHours = inputDays * 24;
+            let resultMinutes = inputDays * 1440;
+            let resultSeconds = inputDays * 86400;
+            document.getElementById('hours').value = resultHours;
+            document.getElementById('minutes').value = resultMinutes;
+            document.getElementById('seconds').value = resultSeconds;
+        }
+    }
+
+</script>
+</body>
+</html>
