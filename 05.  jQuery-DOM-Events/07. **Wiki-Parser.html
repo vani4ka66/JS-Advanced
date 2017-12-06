@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Wiki Parser</title>
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"
+            integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<div>
+    <p id="wiki">
+
+        =Heading 1=
+        This is normal text with a [[hyperlink1|piped hyperlink]]. This '''word''' should be '''bold'''.
+        ==Heading 2==
+        ''This is italics''. [[hyperlink]]
+    </p>
+
+</div>
+<script>
+
+    //(()=> wikiParser('#wiki'))
+    window.onload = function () {
+        wikiParser('#wiki')
+    }
+
+</script>
+
+<script>
+    function wikiParser(selector) {
+
+        let italicPattern = /(''([^']+)'')/g;
+        let bold = /('''([^'\n]+)''')/g;
+        let h1Pattern = /(=([^=]+)=)/g;
+        let h2Pattern = /(==([^=]+)==)/g;
+        let h3Pattern = ((===([^=]+)===)/g;
+        let link = /(\[\[(.*?)\]\])/g;
+
+        let match = '';
+        let result = '';
+
+        let p = $(selector);
+        let textContentP = p.text();
+
+        while (match = bold.exec(textContentP)){
+            result = textContentP.replace(match[1], '<b>' + match[2] + '</b>');
+            textContentP = result
+        }
+        while (match = italicPattern.exec(textContentP)){
+            result = textContentP.replace(match[1], '<i>' + match[2] + '</i>');
+            textContentP = result;
+        }
+
+        while (match = h3Pattern.exec(textContentP)){
+            result = textContentP.replace(match[1], '<h3>' + match[2] + '</h3>');
+            textContentP = result
+        }
+        while (match = h2Pattern.exec(textContentP)){
+            result = textContentP.replace(match[1], '<h2>' + match[2] + '</h2>');
+            textContentP = result
+        }
+        while (match = h1Pattern.exec(textContentP)){
+            result = textContentP.replace(match[1], '<h1>' + match[2] + '</h1>');
+            textContentP = result
+        }
+        while (match = link.exec(textContentP)){
+            if(match[2].includes('|')){
+                let [links, texts] = match[2].split('|');
+                result = textContentP.replace(match[1], `<a href="/wiki/${links}">${texts}</a>`);
+                textContentP = result;
+            }
+            else{
+                result = textContentP.replace(match[1], `<a href="/wiki/${match[2]}">${match[2]}</a>`);
+                textContentP = result;
+            }
+
+        }
+
+      
+         $('p').html(result);
+
+    }
+</script>
+</body>
+</html>
