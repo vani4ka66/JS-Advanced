@@ -1,4 +1,5 @@
 class Contact {
+    
     constructor(firstName, lastName, phone, email) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -27,6 +28,7 @@ class Contact {
     }
 
     createElement() {
+        
         let contact = $("<article>");
         let title = $("<div class='title'>").text(this.firstName + ' ' + this.lastName);
         let info = $("<div class='info'>");
